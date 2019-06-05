@@ -34,6 +34,7 @@ import mcp.kiuwan.jira.JiraClient;
 import mcp.kiuwan.jira.JiraException;
 import mcp.kiuwan.jira.beans.Issue;
 import mcp.kiuwan.jira.beans.Status;
+import mcp.kiuwan.jira.beans.Transition;
 import mcp.kiuwan.zendesk.beans.Ticket;
 
 import org.slf4j.Logger;
@@ -55,7 +56,7 @@ public class ZClient {
 		ZClient zclient = new ZClient();	
 		
 		String option = (args.length>0 ? args[0] : null);
-		
+				
 		if ("--release".equalsIgnoreCase(option)) {
 			zclient.release();		
 		} else if ("--showtickets".equalsIgnoreCase(option)) {
@@ -107,7 +108,7 @@ public class ZClient {
 		
 		jiraKeys.forEach(jiraKey -> {
 			if (ticketsWithIssue.containsKey(jiraKey)) {
-				//releaseZendeskTicket(jiraKey, ticketsWithIssue.get(jiraKey));
+				releaseZendeskTicket(jiraKey, ticketsWithIssue.get(jiraKey));
 			}
 			releaseJiraIssue(jiraKey, jiraIssues.get(jiraKey));
 		});
@@ -121,7 +122,7 @@ public class ZClient {
 			jiraClient.addIssueComment(issue, comment);
 			jiraClient.releaseIssue(issue, comment);
 			if (issue.getFields().getStatus().getId() == Status.RESOLVED) {
-				//jiraClient.transitionIssue(issue, Status.CLOSED);
+				jiraClient.transitionIssue(issue, Transition.CLOSE);
 			}
 		} catch (JiraException e) {
 			logger.error(e.getMessage());
