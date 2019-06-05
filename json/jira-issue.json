@@ -1,0 +1,206 @@
+{
+"expand":"renderedFields,names,schema,transitions,operations,editmeta,changelog,versionedRepresentations",
+"id":"31903",
+"self":"http://appsval.optimyth.com/jira/rest/api/2/issue/31903",
+"key":"SAS-4199",
+"fields":{
+	"issuetype":{
+		"self":"http://appsval.optimyth.com/jira/rest/api/2/issuetype/10",
+		"id":"10",
+		"description":"A bug  whose origin is a support ticket (kayako)",
+		"iconUrl":"http://appsval.optimyth.com/jira/images/icons/issuetypes/defect.png",
+		"name":"Support Incidence",
+		"subtask":false
+	},
+	"timespent":null,
+	"customfield_10030":{
+		"self":"http://appsval.optimyth.com/jira/rest/api/2/customFieldOption/10350",
+		"value":"BBVA ES",
+		"id":"10350"
+	},
+	"project":{
+		"self":"http://appsval.optimyth.com/jira/rest/api/2/project/10072",
+		"id":"10072",
+		"key":"SAS",
+		"name":"kiuwan",
+		"avatarUrls":{
+			"48x48":"http://appsval.optimyth.com/jira/secure/projectavatar?pid=10072&avatarId=11200",
+			"24x24":"http://appsval.optimyth.com/jira/secure/projectavatar?size=small&pid=10072&avatarId=11200",
+			"16x16":"http://appsval.optimyth.com/jira/secure/projectavatar?size=xsmall&pid=10072&avatarId=11200",
+			"32x32":"http://appsval.optimyth.com/jira/secure/projectavatar?size=medium&pid=10072&avatarId=11200"
+		}
+	},
+	"fixVersions":[],
+	"aggregatetimespent":null,
+	"resolution":null,
+	"customfield_10112":null,
+	"resolutiondate":null,
+	"workratio":-1,
+	"lastViewed":"2019-05-28T20:48:56.271+0200",
+	"watches":{
+		"self":"http://appsval.optimyth.com/jira/rest/api/2/issue/SAS-4199/watchers",
+		"watchCount":1,
+		"isWatching":false
+	},
+	"created":"2019-03-18T09:39:10.000+0100",
+	"customfield_10220":null,
+	"priority":{
+		"self":"http://appsval.optimyth.com/jira/rest/api/2/priority/3",
+		"iconUrl":"http://appsval.optimyth.com/jira/images/icons/priorities/major.svg",
+		"name":"Major",
+		"id":"3"
+	},
+	"customfield_10420":null,
+	"labels":[],
+	"timeestimate":null,
+	"aggregatetimeoriginalestimate":null,
+	"versions":[
+		{"self":"http://appsval.optimyth.com/jira/rest/api/2/version/13021",
+			"id":"13021",
+			"name":"master",
+			"archived":false,
+			"released":false,
+			"releaseDate":"2016-10-01"
+		}
+	],
+	"issuelinks":[
+		{"id":"15561",
+			"self":"http://appsval.optimyth.com/jira/rest/api/2/issueLink/15561",
+			"type":{
+				"id":"10110",
+				"name":"depends",
+				"inward":"is linked by",
+				"outward":"depends on",
+				"self":"http://appsval.optimyth.com/jira/rest/api/2/issueLinkType/10110"
+			},
+			"inwardIssue":{
+				"id":"32198",
+				"key":"SAS-4353",
+				"self":"http://appsval.optimyth.com/jira/rest/api/2/issue/32198",
+				"fields":{
+					"summary":"exclude patters in .kiuwan do not work",
+					"status":{
+						"self":"http://appsval.optimyth.com/jira/rest/api/2/status/1",
+						"description":"The issue is open and ready for the assignee to start work on it.",
+						"iconUrl":"http://appsval.optimyth.com/jira/images/icons/statuses/open.png",
+						"name":"Open",
+						"id":"1",
+						"statusCategory":{
+							"self":"http://appsval.optimyth.com/jira/rest/api/2/statuscategory/2",
+							"id":2,
+							"key":"new",
+							"colorName":"blue-gray",
+							"name":"To Do"
+						}
+					},
+					"priority":{
+						"self":"http://appsval.optimyth.com/jira/rest/api/2/priority/3",
+						"iconUrl":"http://appsval.optimyth.com/jira/images/icons/priorities/major.svg",
+						"name":"Major",
+						"id":"3"
+					},
+					"issuetype":{
+						"self":"http://appsval.optimyth.com/jira/rest/api/2/issuetype/10",
+						"id":"10",
+						"description":"A bug  whose origin is a support ticket (kayako)",
+						"iconUrl":"http://appsval.optimyth.com/jira/images/icons/issuetypes/defect.png",
+						"name":"Support Incidence","subtask":false
+					}
+				}
+			}
+		}
+	],
+	"assignee":{
+		"self":"http://appsval.optimyth.com/jira/rest/api/2/user?username=gsimmross",
+		"name":"gsimmross",
+		"key":"gsimmross",
+		"emailAddress":"guillermo.simmross@kiuwan.com",
+		"avatarUrls":{
+			"48x48":"http://appsval.optimyth.com/jira/secure/useravatar?ownerId=gsimmross&avatarId=11101",
+			"24x24":"http://appsval.optimyth.com/jira/secure/useravatar?size=small&ownerId=gsimmross&avatarId=11101",
+			"16x16":"http://appsval.optimyth.com/jira/secure/useravatar?size=xsmall&ownerId=gsimmross&avatarId=11101",
+			"32x32":"http://appsval.optimyth.com/jira/secure/useravatar?size=medium&ownerId=gsimmross&avatarId=11101"
+		},
+		"displayName":"Guillermo Simmross",
+		"active":true,
+		"timeZone":"Europe/Madrid"
+	},
+	"updated":"2019-05-02T12:20:13.000+0200",
+	"status":{
+		"self":"http://appsval.optimyth.com/jira/rest/api/2/status/1",
+		"description":"The issue is open and ready for the assignee to start work on it.",
+		"iconUrl":"http://appsval.optimyth.com/jira/images/icons/statuses/open.png",
+		"name":"Open",
+		"id":"1",
+		"statusCategory":{
+			"self":"http://appsval.optimyth.com/jira/rest/api/2/statuscategory/2",
+			"id":2,
+			"key":"new",
+			"colorName":"blue-gray",
+			"name":"To Do"
+		}
+	},
+	"components":[
+		{"self":"http://appsval.optimyth.com/jira/rest/api/2/component/11220",
+			"id":"11220",
+			"name":"localAnalyzer",
+			"description":"analyzador local (descargable)"
+		}
+	],
+	"timeoriginalestimate":null,
+	"description":"Si el source dir que quiero analizar es :\r\nD:\\D_LGV\\_support\\Kiuwan\\ac\\101319\r\n\r\nY estoy ahi situado y ejecuto :\r\nC:\\LGV\\kla_opt\\KiuwanLocalAnalyzer\\bin\\agent.cmd -n ac_101319 -s .\r\n\r\nel analisis falla por no encontrar los properties, etc.\r\n\r\nEso en windows, en Unix el comportamiento es que pone el path completo en los ficheros cuando analiza.\r\n\r\n",
+	"customfield_10010":null,
+	"timetracking":{},
+	"customfield_10126":null,
+	"customfield_10127":null,
+	"aggregatetimeestimate":null,
+	"summary":"Execution problems with KLA CLI depending on current working dir",
+	"creator":{
+		"self":"http://appsval.optimyth.com/jira/rest/api/2/user?username=luis.garcia",
+		"name":"luis.garcia",
+		"key":"luis.garcia",
+		"emailAddress":"luis.garcia@optimyth.com",
+		"avatarUrls":{
+			"48x48":"http://appsval.optimyth.com/jira/secure/useravatar?avatarId=10122",
+			"24x24":"http://appsval.optimyth.com/jira/secure/useravatar?size=small&avatarId=10122",
+			"16x16":"http://appsval.optimyth.com/jira/secure/useravatar?size=xsmall&avatarId=10122",
+			"32x32":"http://appsval.optimyth.com/jira/secure/useravatar?size=medium&avatarId=10122"
+		},
+		"displayName":"Luis Garcia Viejo",
+		"active":true,
+		"timeZone":"Europe/Madrid"
+	},
+	"subtasks":[],
+	"reporter":{
+		"self":"http://appsval.optimyth.com/jira/rest/api/2/user?username=luis.garcia",
+		"name":"luis.garcia",
+		"key":"luis.garcia",
+		"emailAddress":"luis.garcia@optimyth.com",
+		"avatarUrls":{
+			"48x48":"http://appsval.optimyth.com/jira/secure/useravatar?avatarId=10122",
+			"24x24":"http://appsval.optimyth.com/jira/secure/useravatar?size=small&avatarId=10122",
+			"16x16":"http://appsval.optimyth.com/jira/secure/useravatar?size=xsmall&avatarId=10122",
+			"32x32":"http://appsval.optimyth.com/jira/secure/useravatar?size=medium&avatarId=10122"
+		},
+		"displayName":"Luis Garcia Viejo",
+		"active":true,
+		"timeZone":"Europe/Madrid"
+	},
+	"customfield_10120":null,
+	"customfield_10121":null,
+	"aggregateprogress":{
+		"progress":0,
+		"total":0
+	},
+	"customfield_10122":"9223372036854775807",
+	"customfield_10320":null,
+	"customfield_10321":null,
+	"customfield_10520":"0|i02w3r:",
+	"environment":null,
+	"progress":{"progress":0,"total":0},
+	"comment":{"startAt":0,"maxResults":0,"total":0,"comments":[]},
+	"votes":{"self":"http://appsval.optimyth.com/jira/rest/api/2/issue/SAS-4199/votes","votes":0,"hasVoted":false},
+	"worklog":{"startAt":0,"maxResults":20,"total":0,"worklogs":[]}
+}
+
+}
