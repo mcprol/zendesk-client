@@ -97,7 +97,7 @@ public class ZendeskClient {
 				if (JIRA_FIELD_ID.equals(field.getId())) {
 					String value = (String) field.getValue();
 					if (null != value) {
-						List<String> jiraKeys = Arrays.asList(value.trim().split("[\\s]+"));
+						List<String> jiraKeys = Arrays.asList(value.trim().split("[\\s,]+"));
 						jiraKeys.forEach(key -> {
 							ticketsWithIssue.put(key, ticket);
 						});
@@ -118,6 +118,7 @@ public class ZendeskClient {
 		Comment comment = new Comment(msg);
 		
 		ticket.setComment(comment);
+		ticket.releaseTicket();
 		note.setTicket(ticket);
 		
 		Invocation.Builder builder = target.request();

@@ -71,7 +71,7 @@ public class JiraClient {
 	public Issue getIssue(String key) throws JiraException {
 		WebTarget webTarget = client.target(uri)
 			.path(ISSUE_PATH + key)
-			.queryParam("fields", "status", "summary", "customfield_10321");
+			.queryParam("fields", "status", "resolution", "summary", "customfield_10321");
 		
 		Invocation.Builder invocationBuilder = webTarget.request(MediaType.APPLICATION_JSON);
 
@@ -103,7 +103,8 @@ public class JiraClient {
 
 	
 	public void releaseIssue(Issue issue, String msg) throws JiraException {
-		String customfield_10321 = msg + "\n" + issue.getFields().getCustomfield_10321();
+		String releaseNotes = issue.getFields().getCustomfield_10321();
+		String customfield_10321 = msg + "\n" + ((releaseNotes!=null) ? releaseNotes : "");
 		
 		Fields fields = new Fields();
 		fields.setCustomfield_10321(customfield_10321);

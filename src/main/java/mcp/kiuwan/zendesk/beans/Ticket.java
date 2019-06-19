@@ -22,11 +22,14 @@
 
 package mcp.kiuwan.zendesk.beans;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -41,14 +44,60 @@ public class Ticket {
 	
 	@Override
 	public String toString() {
+		return objectAsString(this);
+	}
+
+	
+	public String toShortString() {
+		final JsonNodeFactory factory = JsonNodeFactory.instance;
+
+		ObjectNode node =  factory.objectNode();
+		node.put("id", getId());
+		node.put("substatus", getFieldValue(360001788879L));
+		node.put("jira", getFieldValue(360001675219L));
+		
+		return objectAsString(node);
+	}
+	
+	
+	private String getFieldValue(Long key) {
+		String value = "{}";
+		Field field = getFields().stream().filter(f -> f.getId().equals(key)).findFirst().get();
+		
+		if (field != null) {
+			if (field.getValue() != null) {
+				value = field.getValue().toString();
+			}
+		}
+		
+		return value;
+	}
+	
+	
+	public void releaseTicket() {
+		String[] subStatus = new String[]{"released"};
+		
+		Field field = new Field();
+		field.setId(360001788879L);
+		field.setValue(subStatus);
+		
+		if (fields == null)  {
+			fields = new ArrayList<>();
+		}
+		fields.add(field);
+	}
+	
+	
+	private String objectAsString(Object object) {
 		ObjectMapper objectMapper = new ObjectMapper();
 		String valueAsString;
 		try {
-			valueAsString = objectMapper.writeValueAsString(this);
+			valueAsString = objectMapper.writeValueAsString(object);
 		} catch (JsonProcessingException e) {
 			valueAsString = e.getMessage();
 		}
 		
 		return valueAsString;
 	}
+	
 }

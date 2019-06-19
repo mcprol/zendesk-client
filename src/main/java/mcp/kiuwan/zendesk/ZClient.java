@@ -63,6 +63,8 @@ public class ZClient {
 			zclient.getTicketsWithIssueFromView(zclient.getProperty("zendesk.view"));
 		} else if ("--showissues".equalsIgnoreCase(option)) {
 			zclient.getJiraIssues(Arrays.asList(zclient.getProperty("release.jira.issues").trim().split("[\\s]+")));
+		} else if ("--showreleasedtickets".equalsIgnoreCase(option)) {
+			zclient.showReleasedTickets();
 		} else {
 			help();
 		}
@@ -74,8 +76,9 @@ public class ZClient {
 	private static void help() {
 		System.out.println("Options:");
 		System.out.println("   --release");
-		System.out.println("   --showtickets");
-		System.out.println("   --showissues");		
+		System.out.println("   --showtickets (configured in zendesk.view property)");
+		System.out.println("   --showissues (configured in release.jira.issues)");		
+		System.out.println("   --showreleasedtickets (configured in zendesk.view property and release.jira.issues)");		
 	}
 
 
@@ -108,7 +111,7 @@ public class ZClient {
 		
 		jiraKeys.forEach(jiraKey -> {
 			if (ticketsWithIssue.containsKey(jiraKey)) {
-				releaseZendeskTicket(jiraKey, ticketsWithIssue.get(jiraKey));
+				releaseZendeskTicket(ticketsWithIssue.get(jiraKey), jiraIssues.get(jiraKey));
 			}
 			releaseJiraIssue(jiraKey, jiraIssues.get(jiraKey));
 		});
@@ -116,9 +119,9 @@ public class ZClient {
 
 
 	private void releaseJiraIssue(String jiraKey, Issue issue) {
-		logger.info("Jira.release: '{}'", issue);
+		logger.info("Jira.release: '{}'", issue.toShortString());
 		try {
-			String comment = createReleaseComment();
+			String comment = createReleaseComment(issue);
 			jiraClient.addIssueComment(issue, comment);
 			jiraClient.releaseIssue(issue, comment);
 			if (issue.getFields().getStatus().getId() == Status.RESOLVED) {
@@ -131,10 +134,10 @@ public class ZClient {
 	}
 
 
-	private void releaseZendeskTicket(String jiraKey, Ticket ticket) {
-		logger.info("Zendesk.release: '{}'", ticket);
+	private void releaseZendeskTicket(Ticket ticket, Issue issue) {
+		logger.info("Zendesk.release: '{}'", ticket.toShortString());
 		try {
-			zdClient.releaseTicket(ticket, createReleaseComment());
+			zdClient.releaseTicket(ticket, createReleaseComment(issue));
 		} catch (ZendeskException e) {
 			logger.error(e.getMessage());
 			logger.debug("[EXCEPTION]: ", e);
@@ -146,11 +149,68 @@ public class ZClient {
 		Map<String, Ticket> ticketsWithIssue = zdClient.getTicketsWithIssueFromView(viewId);
 		logger.debug("View '{}' has '{}' tickets.", viewId, ticketsWithIssue.entrySet().size());
 		
+		StringBuffer sbTickets = new StringBuffer();
+		StringBuffer sbIssues = new StringBuffer();
+		
 		ticketsWithIssue.keySet().forEach(jiraKey -> {
-			logger.debug("   {}: {}", jiraKey, ticketsWithIssue.get(jiraKey));
+			Ticket ticket = ticketsWithIssue.get(jiraKey);
+			Issue issue = null;
+			try {
+				issue = jiraClient.getIssue(jiraKey);
+			} catch (JiraException e) {}
+						
+			addFilteredTickets(ticket, jiraKey, issue, sbTickets, sbIssues);
 		});
 		
+		logger.debug("zendesk: {}", sbTickets.toString());
+		logger.debug("jira: {}", sbIssues.toString());
+		
 		return ticketsWithIssue;
+	}
+	
+	
+	// this method is mainly for testing.
+	private void addFilteredTickets(Ticket ticket, String jiraKey, Issue issue, StringBuffer sbTickets, StringBuffer sbIssues) {
+		if (issue == null) {
+			logger.debug("   {}/{}: zd{} - jira{}", ticket.getId(), jiraKey, ticket, null);
+			return;
+		} 
+		
+		boolean isFiltered = issue.getFields() != null && issue.getFields().getStatus() != null && (
+			issue.getFields().getStatus().getName().equalsIgnoreCase("zclosed") ||
+			issue.getFields().getStatus().getName().equalsIgnoreCase("testing") ||
+			issue.getFields().getStatus().getName().equalsIgnoreCase("zresolved"));
+		
+		isFiltered = true;
+		
+		if (isFiltered) {
+			logger.debug("   {}/{}: zd{} - jira{}", ticket.getId(), issue.getKey(), ticket, issue);
+
+			sbTickets.append(ticket.getId()).append(" ");
+			sbIssues.append(jiraKey).append(" ");
+		}		
+	}
+
+
+	private void showReleasedTickets() throws Exception {
+		String viewId = config.getProperty("zendesk.view");
+		
+		List<String> jiraKeys = Arrays.asList(config.getProperty("release.jira.issues").trim().split("[\\s]+"));
+		Map<String, Ticket> ticketsWithIssue = zdClient.getTicketsWithIssueFromView(viewId);
+		logger.debug("View '{}' has '{}' tickets.", viewId, ticketsWithIssue.entrySet().size());
+		
+		
+		jiraKeys.forEach(jiraKey -> {
+			if (ticketsWithIssue.containsKey(jiraKey)) {
+				Ticket ticket = ticketsWithIssue.get(jiraKey);
+				Issue issue = null;
+				try {
+					issue = jiraClient.getIssue(jiraKey);
+				} catch (JiraException e) {}
+
+				logger.info("   {}/{}: zd{} - jira{}", ticket.getId(), jiraKey, ticket.toShortString(), (issue!=null) ? issue.toShortString() : "{}");
+			}
+		});
 	}
 
 
@@ -166,11 +226,15 @@ public class ZClient {
 	}
 	
 	
-	private String createReleaseComment() {
+	private String createReleaseComment(Issue issue) {
 		final String NL = "\n";
 		
 		String comment = "### kbot begin. " + LocalDate.now().toString() + " " + LocalTime.now().toString() + NL;
 		comment += config.getProperty("release.message") + NL;
+		
+		if (null != issue) {
+			comment += "jira: " + issue.toShortString() + NL;
+		}
 		comment += "### kbot end." + NL;
 		
 		return comment;

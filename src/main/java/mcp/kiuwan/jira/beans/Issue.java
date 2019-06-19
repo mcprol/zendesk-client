@@ -25,9 +25,12 @@ package mcp.kiuwan.jira.beans;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import lombok.Getter;
 import lombok.Setter;
+import mcp.kiuwan.zendesk.beans.Field;
 
 @Getter
 @Setter
@@ -40,14 +43,33 @@ public class Issue {
 	
 	@Override
 	public String toString() {
+		return objectAsString(this);
+	}
+
+	
+	public String toShortString() {
+		final JsonNodeFactory factory = JsonNodeFactory.instance;
+
+		ObjectNode node =  factory.objectNode();
+		node.put("key", getKey());
+		node.put("status", fields.getStatus().getName());
+		node.put("resolution", (fields.getResolution()!=null ? fields.getResolution().getName() : ""));
+		node.put("releaseNotes", fields.getCustomfield_10321());
+		
+		return objectAsString(node);
+	}
+	
+	
+	private String objectAsString(Object object) {
 		ObjectMapper objectMapper = new ObjectMapper();
 		String valueAsString;
 		try {
-			valueAsString = objectMapper.writeValueAsString(this);
+			valueAsString = objectMapper.writeValueAsString(object);
 		} catch (JsonProcessingException e) {
 			valueAsString = e.getMessage();
 		}
 		
 		return valueAsString;
 	}
+	
 }

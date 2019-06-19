@@ -8,4 +8,6 @@ set JIRA_ISSUE=SAS-4425
 
 %CURL% %CURL_OPTS% -X GET -H "Content-Type: application/json" %JIRA_HOST%/rest/api/2/issue/%JIRA_ISSUE%
 
+::%CURL% %CURL_OPTS% -X GET -H "Content-Type: application/json" %JIRA_HOST%/rest/api/2/issue/%JIRA_ISSUE%/transitions
+
 :endlocal

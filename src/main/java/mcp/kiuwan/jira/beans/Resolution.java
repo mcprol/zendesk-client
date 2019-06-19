@@ -23,19 +23,16 @@
 package mcp.kiuwan.jira.beans;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
 @JsonIgnoreProperties(ignoreUnknown = true)
-@JsonInclude(Include.NON_NULL)
-public class Fields {
-	private Status status;
-	private Resolution resolution;
-	private String summary;
-	private String customfield_10321;  // release notes.
+public class Resolution {
+	@Getter(AccessLevel.NONE) @Setter(AccessLevel.NONE) static public final Long FIXED = 1L;	
+	private Long id;
+	private String name;
 }

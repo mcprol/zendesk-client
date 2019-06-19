@@ -8,4 +8,6 @@ set ZD_VIEW=360010252959
 
 %CURL% %CURL_OPTS% -X GET -H "Content-Type: application/json" %ZD_HOST%/api/v2/views/%ZD_VIEW%/tickets.json
 
+::%CURL% %CURL_OPTS% -X GET -H "Content-Type: application/json" %ZD_HOST%/api/v2/ticket_fields.json
+
 :endlocal
